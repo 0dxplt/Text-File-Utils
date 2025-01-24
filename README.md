@@ -1,4 +1,3 @@
-# Text File Utils
-## Description
-gr
-## Usage
+# Text File Utils 📄
+## Description 📝
+## Usage ⚙️
