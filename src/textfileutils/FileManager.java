@@ -46,5 +46,7 @@ public class FileManager {
         //Create a file that prints the output
     }
 
-    public static <K,V> void printMap(Map<K,V> map) {}
+    public static <K,V> void printMap(Map<K,V> map) {
+        System.out.println(map);
+    }
 }
