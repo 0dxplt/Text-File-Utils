@@ -26,16 +26,20 @@ public class Main {
                     map = WordsOccurrences.calculateOccurrences(file);
                     break;
             }
-            if (map != null) System.out.println("Do you want to save the output? (y/n)");
-            switch (new Scanner(System.in).next()) {
-                case "n":
-                    FileManager.printMap(map);
-                    System.out.println("Thank you for using this program!");
-                    break;
-                case "y":
-                default:
-                    FileManager.saveToFile(map);
-                    break;
+            if (map != null) {
+                System.out.println("Do you want to save the output? (y/n)");
+                switch (new Scanner(System.in).next()) {
+                    case "n":
+                        System.out.println(FileManager.printMap(map));
+                        System.out.println("Thank you for using this program!");
+                        break;
+                    case "y":
+                    default:
+                        FileManager.saveToFile(map);
+                        break;
+                }
+            } else {
+                System.out.println("A problem occured. Please try again.");
             }
         }
     }

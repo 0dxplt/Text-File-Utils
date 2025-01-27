@@ -1,10 +1,13 @@
 package textfileutils;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class FileManager {
 
@@ -42,11 +45,33 @@ public class FileManager {
     }
 
     public static <K,V> void saveToFile(Map<K,V> map) {
-        System.out.print("[?] File Name: ");
+        String result = printMap(map);
+        System.out.print("[?] File Path: ");
+        File file = selectFile(new File(new Scanner(System.in).next()));
+        System.out.println("Do you want to [a] append or [o] overwrite?");
+        switch (new Scanner(System.in).next()) {
+            case "a":
+                try (FileWriter fw = new FileWriter(file, true)) {
+                    fw.write("[" + new Date() + "]");
+                    fw.write(result);
+                    fw.write("-------------------\n");
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("[*] Error writing to file");
+                }
+                break;
+            case "o":
+            default:
+
+                break;
+        }
         //Create a file that prints the output
     }
 
-    public static <K,V> void printMap(Map<K,V> map) {
-        System.out.println(map);
+    public static <K,V> String printMap(Map<K,V> map) {
+        return map.entrySet().stream()
+                .map(e -> new StringBuilder(String.valueOf(e.getKey())).append(" ").append(e.getValue()).toString())
+                .collect(Collectors.joining("\n"));
     }
 }
