@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class FileManager {
@@ -46,15 +43,15 @@ public class FileManager {
 
     public static <K,V> void saveToFile(Map<K,V> map) {
         String result = printMap(map);
-        System.out.print("[?] File Path: ");
-        File file = selectFile(new File(new Scanner(System.in).next()));
+        System.out.print("[?] Choose a name for the output file: ");
+        File file = new File(new Scanner(System.in).next());
         System.out.println("Do you want to [a] append or [o] overwrite?");
         switch (new Scanner(System.in).next()) {
             case "a":
                 try (FileWriter fw = new FileWriter(file, true)) {
-                    fw.write("[" + new Date() + "]");
+                    fw.write("[" + new Date() + "]\n");
                     fw.write(result);
-                    fw.write("-------------------\n");
+                    fw.write("\n-------------------\n");
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -63,10 +60,17 @@ public class FileManager {
                 break;
             case "o":
             default:
-
+                try (FileWriter fw = new FileWriter(file, false)) {
+                    fw.write("[" + new Date() + "]\n");
+                    fw.write(result);
+                    fw.write("\n-------------------\n");
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("[*] Error writing to file");
+                }
                 break;
         }
-        //Create a file that prints the output
     }
 
     public static <K,V> String printMap(Map<K,V> map) {
